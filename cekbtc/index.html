@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Request BTC</title>
+</head>
+<body>
+  <h2>Request BTC</h2>
+  <p style="font-weight: bold">Address: <span id="btc_addr"></span></p>
+  <div id="output"></div>
+  
+  <script language="javascript" type="text/javascript">
+    var ws_uri = "wss://ws.blockchain.info/inv";
+    var addr = "19M6H...................jc74WV";
+    var output;
+    var response = new Array();
+
+    function init() {
+      output = document.getElementById("output");
+      document.getElementById("btc_addr").innerHTML = addr;
+      do_ws();
+    }
+
+    function do_ws() {
+      websocket = new WebSocket(ws_uri);
+      websocket.onopen = function(evt) { ws_open(evt) };
+      websocket.onclose = function(evt) { ws_close(evt) };
+      websocket.onmessage = function(evt) { ws_message(evt) };
+      websocket.onerror = function(evt) { ws_error(evt) };
+    }
+
+    function ws_open(evt) {
+      to_screen("CONNECTED");
+      do_send(JSON.stringify({"op":"addr_sub", "addr": addr}));
+    }
+
+    function ws_close(evt) {
+      to_screen("DISCONNECTED");
+    }
+
+    function ws_message(evt) {
+      response = JSON.parse(evt.data);
+      to_screen('<span style="color: blue;">TX: ' + response.x.hash + '</span>');
+      do_send(JSON.stringify({"op":"addr_unsub", "addr": addr}));
+      websocket.close();
+    }
+
+    function ws_error(evt) {
+      to_screen('<span style="color: red;">ERROR: ' + evt.data + '</span>');
+    }
+
+    function do_send(message) {
+      to_screen("SENT: " + message);
+      websocket.send(message);
+    }
+
+    function to_screen(message) {
+      var pre = document.createElement("p");
+      pre.style.wordWrap = "break-word";
+      pre.innerHTML = message;
+      output.appendChild(pre);
+    }
+
+    window.addEventListener("load", init, false);
+  </script>
+</body>
+</html>
