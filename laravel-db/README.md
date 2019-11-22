@@ -8,3 +8,5 @@ Postingan:
 - [Eloquent ORM di Laravel, Membuat Model Aplikasi](https://saung.id/posts/eloquent-orm-di-laravel-membuat-model-aplikasi/)
 
 Untuk memulai membuat project di laravel bisa lihat postingan: [Memulai Laravel PHP, Membuat Aplikasi Daftar Kota](https://saung.id/posts/memulai-laravel-php-membuat-aplikasi-daftar-kota/)
+
+Untuk membuat aplikasi Artisan console dapat dilihat postingan: [Membuat Aplikasi CLI](https://saung.id/posts/laravel-artisan-console-membuat-aplikasi-cli/)
